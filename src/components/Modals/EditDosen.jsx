@@ -14,7 +14,7 @@ import { ImImage } from "react-icons/im";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 // eslint-disable-next-line react/prop-types
-const TambahDosen = ({ isOpen, onClose }) => {
+const EditDosen = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleClose = () => {
     onClose();
@@ -35,10 +35,10 @@ const TambahDosen = ({ isOpen, onClose }) => {
           onClick={handleClose}
         />
         <h1 className="text-navy font-bold text-xl tracking-wider mb-2">
-          Tambahkan Data Dosen
+          Edit Data Dosen
         </h1>
         <p className=" text-sm text-navy">
-          Masukan detail dosen untuk menambahkan data
+          Masukan detail dosen untuk mengubah data
         </p>
         <div className="flex flex-col gap-3 mt-3">
           <Input type="text" label="NIDN" icon={<GoNumber />}/>
@@ -67,4 +67,4 @@ const TambahDosen = ({ isOpen, onClose }) => {
   );
 };
 
-export default TambahDosen;
+export default EditDosen;

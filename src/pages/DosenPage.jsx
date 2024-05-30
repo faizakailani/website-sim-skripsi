@@ -2,12 +2,16 @@ import React, { Component } from "react";
 import Layout from "../components/LayoutComponent";
 import { Button } from "@material-tailwind/react";
 import TambahDosen from "../components/Modals/TambahDosen";
+import TableDosen from "../components/Tables/TableDosen";
+import EditDosen from "../components/Modals/EditDosen";
+import AlertComponent from "../components/AlertComponent";
 
 export default class DosenPage extends Component {
   constructor() {
     super();
     this.state = {
       isModalOpen: false,
+      isModalEditOpen: false,
     };
   }
 
@@ -18,6 +22,26 @@ export default class DosenPage extends Component {
   closeModal = () => {
     this.setState({ isModalOpen: false });
   };
+
+  openEditModal = () => {
+    this.setState({ isModalEditOpen: true });
+  };
+
+  closeEditModal = () => {
+    this.setState({ isModalEditOpen: false });
+  };
+
+  deleteData() {
+    AlertComponent.DeleteConfirmation("Hapus Data Dosen").then(async (e) => {
+      if (e.isConfirmed) {
+        try {
+          AlertComponent.SuccessResponse("Sukses");
+        } catch (error) {
+          AlertComponent.showError("Error", error);
+        }
+      }
+    });
+  }
 
   render() {
     return (
@@ -31,11 +55,21 @@ export default class DosenPage extends Component {
               Tambah Dosen
             </Button>
           </div>
+          <TableDosen
+            onDeleteItem={() => this.deleteData()}
+            onEditItem={() => this.openEditModal()}
+          />
         </div>
         {this.state.isModalOpen && (
           <TambahDosen
             isOpen={this.state.isModalOpen}
             onClose={() => this.closeModal()}
+          />
+        )}
+        {this.state.isModalEditOpen && (
+          <EditDosen
+            isOpen={this.state.isModalEditOpen}
+            onClose={() => this.closeEditModal()}
           />
         )}
       </Layout>

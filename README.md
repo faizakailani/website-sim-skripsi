@@ -8,7 +8,6 @@ This project is built using Vite and React. Vite is a fast build tool that provi
 - [Development](#development)
 - [Build](#build)
 - [Deployment](#deployment)
-- [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -45,39 +44,6 @@ This will generate a `dist` directory containing the optimized production files.
 ## Deployment
 
 You can deploy the contents of the `dist` directory to any static hosting service. If you are using a platform like Vercel or Netlify, you can directly link your repository, and the platform will take care of the build and deployment steps for you.
-
-## Project Structure
-
-Here is an overview of the project's structure:
-
-```
-yourproject/
-├── public/
-│   └── ...
-├── src/
-│   ├── assets/
-│   ├── components/
-│   │   └── ...
-|   ├── components/
-│   │   └── ...
-|   ├── helpers/
-│   │   └── ...
-|   ├── localStorage/
-│   │   └── ...
-|   ├── pages/
-│   │   └── ...
-|   ├── routers/
-│   │   └── ...
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── ...
-├── .gitignore
-├── index.html
-├── package.json
-├── README.md
-└── vite.config.js
-```
-
 
 ## Contributing
 

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Layout from "../components/LayoutComponent";
-import { Button } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import TambahDosen from "../components/Modals/TambahDosen";
 import TableDosen from "../components/Tables/TableDosen";
 import EditDosen from "../components/Modals/EditDosen";
 import AlertComponent from "../components/AlertComponent";
+import ReactPaginate from "react-paginate";
 
 export default class DosenPage extends Component {
   constructor() {
@@ -12,6 +13,7 @@ export default class DosenPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
+      pageCount: 1
     };
   }
 
@@ -50,14 +52,28 @@ export default class DosenPage extends Component {
           <h1 className="text-navy font-bold tracking-widest">
             Manajemen Dosen
           </h1>
-          <div className="flex justify-end">
-            <Button className="bg-navy" onClick={() => this.openModal()}>
+          <div className="flex justify-end gap-2 my-3">
+            <Input label="Cari berdasarkan nama"/>
+            <Button className="bg-navy whitespace-nowrap" onClick={() => this.openModal()} >
               Tambah Dosen
             </Button>
           </div>
           <TableDosen
             onDeleteItem={() => this.deleteData()}
             onEditItem={() => this.openEditModal()}
+          />
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            // onPageChange={this.handlePageClick}
           />
         </div>
         {this.state.isModalOpen && (

@@ -13,7 +13,7 @@ const TableDosen = ({ onDeleteItem, onEditItem }) => {
   };
   const TABLE_HEAD = ["No", "NIDN", "Nama", "Foto", "Aksi"];
   return (
-    <div className="bg-white rounded-lg h-96 lg:h-fit overflow-auto my-3">
+    <div className="bg-white rounded-lg h-96 lg:h-fit overflow-auto my-5">
       <table className="min-w-full text-sm text-left text-blue">
         <thead>
           <tr>

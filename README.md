@@ -17,8 +17,8 @@ This project is built using Vite and React. Vite is a fast build tool that provi
 To get started with the project, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+git clone https://github.com/faizakailani/website-sim-skripsi.git
+cd website-sim-skripsi
 npm install
 ```
 

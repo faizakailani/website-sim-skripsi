@@ -54,7 +54,7 @@ export default class DosenPage extends Component {
           </h1>
           <div className="flex justify-end gap-2 my-3">
             <Input label="Cari berdasarkan nama"/>
-            <Button className="bg-navy whitespace-nowrap" onClick={() => this.openModal()} >
+            <Button className="bg-navy whitespace-nowrap w-1/4" onClick={() => this.openModal()}>
               Tambah Dosen
             </Button>
           </div>

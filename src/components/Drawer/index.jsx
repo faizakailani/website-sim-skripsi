@@ -14,7 +14,8 @@ import { NavLink } from "react-router-dom";
 import User from "../../localStorages/User";
 import { RiDashboardFill, RiLogoutBoxRFill } from "react-icons/ri";
 import { BsPersonCircle } from "react-icons/bs";
-import { IoIosBookmarks } from "react-icons/io";
+import { IoPeople, IoDocuments } from "react-icons/io5";
+import { FaBook, FaPeopleGroup } from "react-icons/fa6";
 
 // eslint-disable-next-line react/prop-types
 const DrawerMobile = ({ open, closeDrawer }) => {
@@ -25,6 +26,26 @@ const DrawerMobile = ({ open, closeDrawer }) => {
       name: "Beranda",
       icon: RiDashboardFill,
       path: "/dashboard",
+    },
+    {
+      name: "Dosen",
+      icon: IoPeople,
+      path: "/dosen",
+    },
+    {
+      name: "Mahasiswa",
+      icon: FaPeopleGroup,
+      path: "/mahasiswa",
+    },
+    {
+      name: "Program Studi",
+      icon: FaBook,
+      path: "/prodi",
+    },
+    {
+      name: "Skripsi",
+      icon: IoDocuments,
+      path: "/skripsi",
     },
   ];
 

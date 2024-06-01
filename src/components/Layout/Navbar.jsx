@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import DrawerMobile from "../Drawer";
 import { NavLink } from "react-router-dom";
-import { BsPerson, BsPersonFill } from "react-icons/bs";
+import { BsPersonFill } from "react-icons/bs";
 import { Tooltip } from "@material-tailwind/react";
 // import UserService from "../../services/service/UserService";
 

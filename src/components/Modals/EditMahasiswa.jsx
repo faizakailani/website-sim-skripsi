@@ -41,10 +41,10 @@ const EditMahasiswa = ({ isOpen, onClose }) => {
           Masukan detail Mahasiswa untuk mengubah data
         </p>
         <div className="flex flex-col gap-3 mt-3">
-          <Input type="text" label="NIM" icon={<GoNumber />}/>
-          <Input type="text" label="Nama" icon={<BsPerson />}/>
-          <Input type="text" label="ProgramStudi" icon={<BsMortarboard />}/>
-          <Input type="file" label="Foto" icon={<ImImage />}/>
+          <Input type="text" label="NIM" icon={<GoNumber />} />
+          <Input type="text" label="Nama" icon={<BsPerson />} />
+          <Input type="text" label="ProgramStudi" icon={<BsMortarboard />} />
+          <Input type="file" label="Foto" icon={<ImImage />} />
         </div>
       </DialogBody>
       <DialogFooter>

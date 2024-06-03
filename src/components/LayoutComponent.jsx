@@ -1,3 +1,4 @@
+import Footer from "./Layout/Footer";
 import NavbarComponent from "./Layout/Navbar";
 import Sidebar from "./Layout/Sidebar";
 
@@ -7,11 +8,10 @@ const Layout = ({ children }) => {
     <div className="flex h-screen bg-white">
       <Sidebar />
       <div className="relative flex flex-col w-full lg:w-[100%] h-screen overflow-hidden">
-        <NavbarComponent /> 
-        <main className="px-2 md:px-0 w-full overflow-auto">
-          {children}
-        </main>
-      </div> 
+        <NavbarComponent />
+        <main className="px-2 md:px-0 w-full overflow-auto">{children}</main>
+        <Footer />
+      </div>
     </div>
   );
 };

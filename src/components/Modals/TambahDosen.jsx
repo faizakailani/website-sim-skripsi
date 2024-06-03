@@ -41,9 +41,9 @@ const TambahDosen = ({ isOpen, onClose }) => {
           Masukan detail dosen untuk menambahkan data
         </p>
         <div className="flex flex-col gap-3 mt-3">
-          <Input type="text" label="NIDN" icon={<GoNumber />}/>
-          <Input type="text" label="Nama" icon={<BsPerson />}/>
-          <Input type="file" label="Foto" icon={<ImImage />}/>
+          <Input type="text" label="NIDN" icon={<GoNumber />} />
+          <Input type="text" label="Nama" icon={<BsPerson />} />
+          <Input type="file" label="Foto" icon={<ImImage />} />
         </div>
       </DialogBody>
       <DialogFooter>

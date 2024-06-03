@@ -35,7 +35,9 @@ const TableMahasiswa = ({ onDeleteItem, onEditItem }) => {
             <td scope="row" className={`px-4 py-3`}>
               Dani Ramadhan
             </td>
-            <td scope="row" className={`px-4 py-3`}>Teknik Informatika</td>
+            <td scope="row" className={`px-4 py-3`}>
+              Teknik Informatika
+            </td>
             <td scope="row" className={`px-4 py-3`}></td>
             <td scope="row" className="flex gap-2 px-4 py-3">
               <IconButton size="sm" className="bg-navy" onClick={handleEdit}>
@@ -56,7 +58,9 @@ const TableMahasiswa = ({ onDeleteItem, onEditItem }) => {
             <td scope="row" className={`px-4 py-3`}>
               Dani Ramadhan
             </td>
-            <td scope="row" className={`px-4 py-3`}>Teknik Informatika</td>
+            <td scope="row" className={`px-4 py-3`}>
+              Teknik Informatika
+            </td>
             <td scope="row" className={`px-4 py-3`}></td>
             <td scope="row" className="flex gap-2 px-4 py-3">
               <IconButton size="sm" className="bg-navy" onClick={handleEdit}>

@@ -14,7 +14,7 @@ class AlertComponent {
   Warning(message) {
     Swal.fire({
       icon: "warning",
-      title: "Pemberitahuan!", 
+      title: "Pemberitahuan!",
       text: message,
       confirmButtonColor: "red",
       confirmButtonText: "Tutup",

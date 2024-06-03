@@ -59,9 +59,11 @@ const Sidebar = () => {
     <>
       <Card className="bg-deep-blue hidden lg:flex flex-col justify-between w-64 p-2 border shadow-xl bg-navy text-bw m-1 rounded-md">
         <div className="overflow-y-auto overflow-x-hidden">
-          <div className="text-xl font-extrabold tracking-widest mb-3 w-full mx-5">
-            SIM SKRIPSI
-          </div>
+          <NavLink to={"/dashboard"}>
+            <div className="text-xl font-extrabold tracking-widest mb-3 w-full mx-5">
+              SIM SKRIPSI
+            </div>
+          </NavLink>
           <List className="text-sm">
             {itemSidebar.map((item, index) => (
               <NavLink

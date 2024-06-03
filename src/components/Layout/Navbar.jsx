@@ -16,9 +16,7 @@ const NavbarComponent = () => {
     <>
       <header className="sticky top-0 z-50flex bg-blue shadow-md m-1 text-bw rounded-md">
         <div className="flex items-center justify-between w-full px-3 bg-deep-blue">
-          <h1 className="m-2 font-bold tracking-widest">
-            Selamat Datang
-          </h1>
+          <h1 className="m-2 font-bold tracking-widest">Selamat Datang</h1>
           <div className="hidden md:block">
             <NavLink to={"/profile"}>
               <Tooltip content="Profil">

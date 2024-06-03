@@ -16,5 +16,5 @@ export const privatePage = {
   mahasiswaPage: <MahasiswaPage />,
   prodiPage: <ProdiPage />,
   skripsiPage: <SkripsiPage />,
-  profilePage: <ProfilePage />
+  profilePage: <ProfilePage />,
 };

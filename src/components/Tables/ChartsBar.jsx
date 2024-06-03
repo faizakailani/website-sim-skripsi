@@ -1,4 +1,4 @@
-import { Bar } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,7 +7,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -20,18 +20,18 @@ ChartJS.register(
 
 export default function ChartBar() {
   const data = {
-    labels: ['Dosen', 'Mahasiswa', 'Program Studi', 'Skripsi'],
+    labels: ["Dosen", "Mahasiswa", "Program Studi", "Skripsi"],
     datasets: [
       {
-        label: 'Jumlah Data',
+        label: "Jumlah Data",
         data: [3, 2, 3, 1],
         backgroundColor: [
-          'rgba(238, 111, 87, 1)',
-          'rgba(0, 51, 78)',
-          'rgba(238, 111, 87, 1)',
-          'rgba(0, 51, 78)',
+          "rgba(238, 111, 87, 1)",
+          "rgba(0, 51, 78)",
+          "rgba(238, 111, 87, 1)",
+          "rgba(0, 51, 78)",
         ],
-        borderColor: 'rgba(0,51,78,255)',
+        borderColor: "rgba(0,51,78,255)",
         borderWidth: 0,
       },
     ],
@@ -41,11 +41,11 @@ export default function ChartBar() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Jumlah Data',
+        text: "Jumlah Data",
       },
     },
   };

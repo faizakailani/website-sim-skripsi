@@ -13,7 +13,7 @@ export default class DosenPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1
+      pageCount: 1,
     };
   }
 
@@ -48,13 +48,16 @@ export default class DosenPage extends Component {
   render() {
     return (
       <Layout>
-        <div className="m-1 bg-bw p-5 rounded-md">
+        <div className="m-1 bg-bw p-5 rounded-md min-h-screen">
           <h1 className="text-navy font-bold tracking-widest">
             Manajemen Dosen
           </h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nama"/>
-            <Button className="bg-navy whitespace-nowrap w-1/4" onClick={() => this.openModal()}>
+            <Input label="Cari berdasarkan nama" />
+            <Button
+              className="bg-navy whitespace-nowrap w-1/4"
+              onClick={() => this.openModal()}
+            >
               Tambah Dosen
             </Button>
           </div>

@@ -1,36 +1,36 @@
-import { Component } from 'react'
-import Layout from '../components/LayoutComponent'
-import { Button, Input } from '@material-tailwind/react';
-import TableProdi from '../components/Tables/TableProdi'
-import AlertComponent from '../components/AlertComponent';
-import ReactPaginate from 'react-paginate';
-import TambahProdi from '../components/Modals/TambahProdi';
-import EditProdi from '../components/Modals/EditProdi';
+import { Component } from "react";
+import Layout from "../components/LayoutComponent";
+import { Button, Input } from "@material-tailwind/react";
+import TableProdi from "../components/Tables/TableProdi";
+import AlertComponent from "../components/AlertComponent";
+import ReactPaginate from "react-paginate";
+import TambahProdi from "../components/Modals/TambahProdi";
+import EditProdi from "../components/Modals/EditProdi";
 
 export default class ProdiPage extends Component {
-  constructor () {
+  constructor() {
     super();
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1
+      pageCount: 1,
     };
   }
 
   openModal = () => {
-    this.setState({ isModalOpen: true});
+    this.setState({ isModalOpen: true });
   };
-  
+
   closeModal = () => {
-    this.setState({ isModalOpen: false});
+    this.setState({ isModalOpen: false });
   };
-  
+
   openEditModal = () => {
-    this.setState({ isModalEditOpen: true});
+    this.setState({ isModalEditOpen: true });
   };
-  
+
   closeEditModal = () => {
-    this.setState({ isModalEditOpen: false});
+    this.setState({ isModalEditOpen: false });
   };
   deleteData() {
     AlertComponent.DeleteConfirmation("Hapus Data Dosen").then(async (e) => {
@@ -46,13 +46,14 @@ export default class ProdiPage extends Component {
   render() {
     return (
       <Layout>
-        <div className="m-1 bg-bw p-5 rounded-md">
-          <h1 className="text-navy font-bold tracking-widest">
-            Program Studi
-          </h1>
+        <div className="m-1 bg-bw p-5 rounded-md min-h-screen">
+          <h1 className="text-navy font-bold tracking-widest">Program Studi</h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nama"/>
-            <Button className="bg-navy whitespace-nowrap w-1/4" onClick={() => this.openModal()}>
+            <Input label="Cari berdasarkan nama" />
+            <Button
+              className="bg-navy whitespace-nowrap w-1/4"
+              onClick={() => this.openModal()}
+            >
               Tambah Program Studi
             </Button>
           </div>
@@ -87,7 +88,6 @@ export default class ProdiPage extends Component {
           />
         )}
       </Layout>
-    )
+    );
   }
 }
-

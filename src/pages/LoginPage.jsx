@@ -23,7 +23,7 @@ export default class LoginPage extends Component {
   render() {
     return (
       <>
-        <div className="relative h-screen bg-gray-100 w-full flex justify-center items-center overflow-hidden">
+        <div className="relative h-screen min-h-screen bg-gray-100 w-full flex justify-center items-center overflow-hidden">
           <div className="shadow-lg bg-white w-[90%] h-[55%] lg:w-[50rem] lg:h-[27rem] rounded-2xl flex">
             <div className="relative h-full w-[80%] p-3 rounded-2xl bg-red-800 hidden lg:flex flex-col justify-center items-center gap-7">
               <img src={IMAGES.logo} className="w-60" alt="kd logo" />

@@ -23,7 +23,7 @@ const DrawerMobile = ({ open, closeDrawer }) => {
 
   const itemSidebar = [
     {
-      name: "Beranda",
+      name: "Dashboard",
       icon: RiDashboardFill,
       path: "/dashboard",
     },
@@ -165,9 +165,7 @@ const DrawerMobile = ({ open, closeDrawer }) => {
           >
             <span>Batal</span>
           </Button>
-          <Button onClick={handleLogout}>
-            Oke
-          </Button>
+          <Button onClick={handleLogout}>Oke</Button>
         </DialogFooter>
       </Dialog>
     </>

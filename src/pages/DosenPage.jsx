@@ -5,7 +5,8 @@ import TambahDosen from "../components/Modals/TambahDosen";
 import TableDosen from "../components/Tables/TableDosen";
 import EditDosen from "../components/Modals/EditDosen";
 import AlertComponent from "../components/AlertComponent";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
+import DosenService from "../services/service/DosenService";
 
 export default class DosenPage extends Component {
   constructor() {
@@ -13,7 +14,8 @@ export default class DosenPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1,
+      page: 1,
+      limit: 1000,
     };
   }
 
@@ -45,6 +47,30 @@ export default class DosenPage extends Component {
     });
   }
 
+  getDosen = (page, limit) => {
+    const data = {
+      orderBy: "DESC",
+      sortBy: "nama",
+      limit,
+      include_inactive: false,
+      page,
+    };
+    try {
+      this.setState({ isLoading: true });
+      DosenService.GetDosen(data).then((res) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  componentDidMount() {
+    this.getDosen(this.state.page, this.state.limit);
+  }
+
   render() {
     return (
       <Layout>
@@ -65,7 +91,7 @@ export default class DosenPage extends Component {
             onDeleteItem={() => this.deleteData()}
             onEditItem={() => this.openEditModal()}
           />
-          <ReactPaginate
+          {/* <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
             breakLabel={"..."}
@@ -77,7 +103,7 @@ export default class DosenPage extends Component {
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}
             // onPageChange={this.handlePageClick}
-          />
+          /> */}
         </div>
         {this.state.isModalOpen && (
           <TambahDosen

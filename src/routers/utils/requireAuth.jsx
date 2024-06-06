@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const requireAuth = ({ redirectPath }) => {
-  const isAuthenticate = localStorage.getItem("appToken");
+  const isAuthenticate = localStorage.getItem("token");
 
   if (!isAuthenticate) return <Navigate to={redirectPath} />;
 

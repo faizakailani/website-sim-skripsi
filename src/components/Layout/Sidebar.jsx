@@ -52,7 +52,7 @@ const Sidebar = () => {
     User.Logout();
     setInterval(() => {
       window.location.reload();
-    }, 2000);
+    }, 1000);
   };
 
   return (

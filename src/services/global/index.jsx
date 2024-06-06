@@ -8,8 +8,17 @@ const API_ENDPOINT = {
   REGISTER: `${API_URL}/auth/register`,
 
   //users
-  GET_PROFILE: (username) => `${API_URL}/users/me/${username}`,
-  UPDATE_PROFILE: (username) => `${API_URL}/users/update/${username}`,
+  GET_PROFILE: `${API_URL}/users/me`,
+  UPDATE_PROFILE: `${API_URL}/users/profile/update`,
+  CHANGE_PASSWORD: `${API_URL}/users/profile/change-password`,
+
+  //dashboard
+  GET_DASHBOARD: `${API_URL}/dashboard/all`,
+
+  //util
+  UPLOAD_FILE: `${API_URL}/util/uploadFile`,
+  GET_IMAGE: (filename) => `${API_URL}/util/downloadFile/${filename}`,
+  DOWNLOAD_FILE: (filename) => `${API_URL}/util/downloadFile/${filename}`,
 
   //dosen
   GET_DOSEN: (data) => `${API_URL}/dosen/all?${data}`,
@@ -43,6 +52,7 @@ const API_ENDPOINT = {
   UPDATE_MAHASISWA: (nim) => `${API_URL}/mahasiswa/update/${nim}`,
   ACTIVATE_MAHASISWA: (nim) => `${API_URL}/mahasiswa/activated/${nim}`,
   DEACTIVATE_MAHASISWA: (nim) => `${API_URL}/mahasiswa/deactivated/${nim}`,
+  DELETE_MAHASISWA: (nim) => `${API_URL}/mahasiswa/delete/${nim}`,
 
   //skripsi
   GET_SKRIPSI: (data) => `${API_URL}/skripsi/all?${data}`,
@@ -51,6 +61,7 @@ const API_ENDPOINT = {
   UPDATE_SKRIPSI: (id) => `${API_URL}/skripsi/update/${id}`,
   ACTIVATE_SKRIPSI: (id) => `${API_URL}/skripsi/activated/${id}`,
   DEACTIVATE_SKRIPSI: (id) => `${API_URL}/skripsi/deactivated/${id}`,
+  DELETE_SKRIPSI: (id) => `${API_URL}/skripsi/delete/${id}`,
 };
 
 export default API_ENDPOINT;

@@ -5,7 +5,7 @@ import TambahDosen from "../components/Modals/TambahDosen";
 import TableDosen from "../components/Tables/TableDosen";
 import EditDosen from "../components/Modals/EditDosen";
 import AlertComponent from "../components/AlertComponent";
-// import ReactPaginate from "react-paginate";
+import ReactPaginate from "react-paginate";
 import DosenService from "../services/service/DosenService";
 
 export default class DosenPage extends Component {
@@ -15,7 +15,13 @@ export default class DosenPage extends Component {
       isModalOpen: false,
       isModalEditOpen: false,
       page: 1,
-      limit: 1000,
+      limit: 10,
+      dosens: [],
+      allDosens: [],
+      pageCount: 0,
+      searchQuery: "",
+      isLoading: false,
+      items: null,
     };
   }
 
@@ -27,38 +33,53 @@ export default class DosenPage extends Component {
     this.setState({ isModalOpen: false });
   };
 
-  openEditModal = () => {
-    this.setState({ isModalEditOpen: true });
+  openEditModal = (items) => {
+    this.setState({ isModalEditOpen: true, items });
   };
 
   closeEditModal = () => {
     this.setState({ isModalEditOpen: false });
   };
 
-  deleteData() {
+  deleteData = (nidn) => {
     AlertComponent.DeleteConfirmation("Hapus Data Dosen").then(async (e) => {
       if (e.isConfirmed) {
         try {
-          AlertComponent.SuccessResponse("Sukses");
+          DosenService.DeleteDosen(nidn).then((res) => {
+            if (res.status === 200) {
+              AlertComponent.SuccessResponse(res.data.message);
+              setInterval(() => {
+                window.location.reload();
+              }, 2000);
+            } else {
+              AlertComponent.Error(res.data.message);
+            }
+          });
         } catch (error) {
           AlertComponent.showError("Error", error);
         }
       }
     });
-  }
+  };
 
-  getDosen = (page, limit) => {
+  getDosen = () => {
     const data = {
       orderBy: "DESC",
       sortBy: "nama",
-      limit,
+      limit: 1000, // Set a high limit to get all data
       include_inactive: false,
-      page,
+      page: 1,
     };
+    this.setState({ isLoading: true });
     try {
-      this.setState({ isLoading: true });
       DosenService.GetDosen(data).then((res) => {
-        console.log(res);
+        const allDosens = res.data.data;
+        const pageCount = Math.ceil(allDosens.length / this.state.limit);
+        this.setState({
+          allDosens,
+          dosens: allDosens.slice(0, this.state.limit),
+          pageCount,
+        });
       });
     } catch (error) {
       console.log(error);
@@ -67,8 +88,33 @@ export default class DosenPage extends Component {
     }
   };
 
+  handlePageClick = (data) => {
+    let selected = data.selected;
+    const offset = selected * this.state.limit;
+    const currentPageData = this.state.allDosens
+      .filter((dosen) =>
+        dosen.nama.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      )
+      .slice(offset, offset + this.state.limit);
+    this.setState({ page: selected + 1, dosens: currentPageData });
+  };
+
+  handleSearch = (event) => {
+    const searchQuery = event.target.value;
+    const filteredData = this.state.allDosens.filter((dosen) =>
+      dosen.nama.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const pageCount = Math.ceil(filteredData.length / this.state.limit);
+    this.setState({
+      searchQuery,
+      dosens: filteredData.slice(0, this.state.limit),
+      pageCount,
+      page: 1,
+    });
+  };
+
   componentDidMount() {
-    this.getDosen(this.state.page, this.state.limit);
+    this.getDosen();
   }
 
   render() {
@@ -79,7 +125,11 @@ export default class DosenPage extends Component {
             Manajemen Dosen
           </h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nama" />
+            <Input
+              label="Cari berdasarkan nama"
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
             <Button
               className="bg-navy whitespace-nowrap w-1/4"
               onClick={() => this.openModal()}
@@ -87,11 +137,19 @@ export default class DosenPage extends Component {
               Tambah Dosen
             </Button>
           </div>
-          <TableDosen
-            onDeleteItem={() => this.deleteData()}
-            onEditItem={() => this.openEditModal()}
-          />
-          {/* <ReactPaginate
+          {this.state.isLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : (
+            <TableDosen
+              data={this.state.dosens}
+              onDeleteItem={this.deleteData}
+              onEditItem={this.openEditModal}
+              currentPage={this.state.page}
+            />
+          )}
+          <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}
             breakLabel={"..."}
@@ -102,8 +160,8 @@ export default class DosenPage extends Component {
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}
-            // onPageChange={this.handlePageClick}
-          /> */}
+            onPageChange={this.handlePageClick}
+          />
         </div>
         {this.state.isModalOpen && (
           <TambahDosen
@@ -113,6 +171,7 @@ export default class DosenPage extends Component {
         )}
         {this.state.isModalEditOpen && (
           <EditDosen
+            items={this.state.items}
             isOpen={this.state.isModalEditOpen}
             onClose={() => this.closeEditModal()}
           />

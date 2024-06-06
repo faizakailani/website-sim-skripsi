@@ -68,11 +68,6 @@ const DrawerMobile = ({ open, closeDrawer }) => {
         <div>
           <div className="mb-2 flex items-center justify-between p-4">
             <div className="mb-2 p-4 flex flex-col gap-3">
-              {/* <div className="flex">
-                <img src={ski} alt="ski" className="w-10" />
-                <div className="border-l-2"></div>
-                <img src={lm} alt="lm" className="w-10" />
-              </div> */}
               <div>
                 <h1 className="text-white text-md font-bold tracking-widest">
                   SIM Skripsi

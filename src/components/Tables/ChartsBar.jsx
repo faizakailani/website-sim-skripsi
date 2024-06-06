@@ -18,13 +18,25 @@ ChartJS.register(
   Legend
 );
 
-export default function ChartBar() {
-  const data = {
-    labels: ["Dosen", "Mahasiswa", "Program Studi", "Skripsi"],
+const Chart = ({ data = [] }) => {
+  const mappedValues = data.map((item) => {
+    const key = Object.keys(item)[0];
+    return item[key];
+  });
+
+  const chartData = {
+    labels: [
+      "Semua Data",
+      "Dosen",
+      "Program Studi",
+      "Log User",
+      "Mahasiswa",
+      "Skripsi",
+    ],
     datasets: [
       {
         label: "Jumlah Data",
-        data: [3, 2, 3, 1],
+        data: mappedValues,
         backgroundColor: [
           "rgba(238, 111, 87, 1)",
           "rgba(0, 51, 78)",
@@ -50,5 +62,7 @@ export default function ChartBar() {
     },
   };
 
-  return <Bar data={data} options={options} />;
-}
+  return <Bar data={chartData} options={options} />;
+};
+
+export default Chart;

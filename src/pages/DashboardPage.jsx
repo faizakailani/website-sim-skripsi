@@ -2,10 +2,46 @@ import { Component } from "react";
 import Layout from "../components/LayoutComponent";
 import { IoPeople } from "react-icons/io5";
 import { FaBook, FaPeopleGroup } from "react-icons/fa6";
-import { GoGear, GoServer } from "react-icons/go";
+import { GoServer } from "react-icons/go";
 import ChartBar from "../components/Tables/ChartsBar";
+import DashboardService from "../services/service/DashboardService";
 
 export default class DashboardPage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      countDosen: 0,
+      countLogUsers: 0,
+      countMahasiswa: 0,
+      countSkripsi: 0,
+      countStudi: 0,
+      charts: [],
+    };
+  }
+  getData = () => {
+    try {
+      this.setState({ isLoading: true });
+      DashboardService.GetData().then((res) => {
+        this.setState({
+          countDosen: res.data.data.countDosen,
+          countLogUsers: res.data.data.countLogUsers,
+          countMahasiswa: res.data.data.countMahasiswa,
+          countSkripsi: res.data.data.countSkripsi,
+          countStudi: res.data.data.countStudi,
+          charts: res.data.data.chart,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
   render() {
     return (
       <Layout>
@@ -20,7 +56,9 @@ export default class DashboardPage extends Component {
             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
               <div className="px-6 py-4 flex items-center">
                 <IoPeople className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">1</div>
+                <div className="font-bold text-xl py-2">
+                  {this.state.countDosen}
+                </div>
               </div>
               <div className="px-6 flex flex-col items-center">
                 <p className="text-gray-700 text-base text-center">Dosen</p>
@@ -33,7 +71,9 @@ export default class DashboardPage extends Component {
             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
               <div className="px-6 py-4 flex items-center">
                 <FaBook className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">12</div>
+                <div className="font-bold text-xl py-2">
+                  {this.state.countStudi}
+                </div>
               </div>
               <div className="px-6 flex flex-col items-center">
                 <p className="text-gray-700 text-base text-center">
@@ -47,7 +87,9 @@ export default class DashboardPage extends Component {
             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
               <div className="px-6 py-4 flex items-center">
                 <GoServer className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">123</div>
+                <div className="font-bold text-xl py-2">
+                  {this.state.countLogUsers}
+                </div>
               </div>
               <div className="px-6 flex flex-col items-center">
                 <p className="text-gray-700 text-base text-center">Log User</p>
@@ -60,7 +102,9 @@ export default class DashboardPage extends Component {
             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
               <div className="px-6 py-4 flex items-center">
                 <FaPeopleGroup className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">1234</div>
+                <div className="font-bold text-xl py-2">
+                  {this.state.countMahasiswa}
+                </div>
               </div>
               <div className="px-6 flex flex-col items-center">
                 <p className="text-gray-700 text-base text-center">Mahasiswa</p>
@@ -71,20 +115,10 @@ export default class DashboardPage extends Component {
             </div>
             <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
               <div className="px-6 py-4 flex items-center">
-                <GoGear className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">1</div>
-              </div>
-              <div className="px-6 flex flex-col items-center">
-                <p className="text-gray-700 text-base text-center">Setting</p>
-                <button className="bg-navy text-white px-3 py-3 mt-4 rounded ">
-                  <a href="/setting">View Details</a>
-                </button>
-              </div>
-            </div>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg hover:shadow-2xl m-4 p-2 flex flex-col items-center">
-              <div className="px-6 py-4 flex items-center">
                 <IoPeople className="w-12 h-12 mr-4" />
-                <div className="font-bold text-xl py-2">12345</div>
+                <div className="font-bold text-xl py-2">
+                  {this.state.countSkripsi}
+                </div>
               </div>
               <div className="px-6 flex flex-col items-center">
                 <p className="text-gray-700 text-base text-center">Skripsi</p>
@@ -100,7 +134,7 @@ export default class DashboardPage extends Component {
             </div>
             <div className="text-navy tracking-widest">Statistic Overview</div>
           </div>
-          <ChartBar />
+          <ChartBar data={this.state.charts} />
         </div>
       </Layout>
     );

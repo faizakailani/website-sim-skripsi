@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { IMAGES } from "../assets";
 import { Button, Input, Spinner } from "@material-tailwind/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import UserService from "../services/service/UserService";
 import AlertComponent from "../components/AlertComponent";
 import User from "../localStorages/User";

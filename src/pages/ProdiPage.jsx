@@ -6,6 +6,7 @@ import AlertComponent from "../components/AlertComponent";
 import ReactPaginate from "react-paginate";
 import TambahProdi from "../components/Modals/TambahProdi";
 import EditProdi from "../components/Modals/EditProdi";
+import ProgramStudiService from "../services/service/ProgramStudiService";
 
 export default class ProdiPage extends Component {
   constructor() {
@@ -13,7 +14,14 @@ export default class ProdiPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1,
+      page: 1,
+      limit: 10,
+      prodis: [],
+      allProdis: [],
+      pageCount: 0,
+      searchQuery: "",
+      isLoading: false,
+      items: null,
     };
   }
 
@@ -25,31 +33,101 @@ export default class ProdiPage extends Component {
     this.setState({ isModalOpen: false });
   };
 
-  openEditModal = () => {
-    this.setState({ isModalEditOpen: true });
+  openEditModal = (items) => {
+    this.setState({ isModalEditOpen: true, items });
   };
 
   closeEditModal = () => {
     this.setState({ isModalEditOpen: false });
   };
-  deleteData() {
-    AlertComponent.DeleteConfirmation("Hapus Data Dosen").then(async (e) => {
+
+  deleteData = (kode) => {
+    AlertComponent.DeleteConfirmation("Hapus Data Prodi").then(async (e) => {
       if (e.isConfirmed) {
         try {
-          AlertComponent.SuccessResponse("Sukses");
+          ProgramStudiService.DeleteProdi(kode).then((res)=> {
+            if (res.status === 200 ) {
+              AlertComponent.SuccessResponse(res.data.message);
+              setInterval(() => {
+                window.location.reload();
+              }, 2000);
+            }else {
+              AlertComponent.Error(res.data.message);
+            }
+          });
         } catch (error) {
           AlertComponent.showError("Error", error);
         }
       }
     });
+  };
+
+  getProdi = () => {
+    const kode = {
+      orderBy: "DESC",
+      sortBy: "nama",
+      limit: 1000,
+      include_inactive: false,
+      page: 1,
+    };
+    this.setState({ isLoading: true });
+    try{
+      ProgramStudiService.GetProdi(kode).then((res) => {
+        const allProdi = res.data.kode;
+        const pageCount = Math.ceil(allProdi.length / this.state.limit);
+        this.setState({
+          allProdi,
+          prodi: allProdi.slice(0, this.state.limit),
+          pageCount,
+        });
+      });
+    } catch (error){
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false});
+    }
+  };
+
+  handlePageClick = (data) => {
+    let selected = data.selected;
+    const offset = selected * this.state.limit;
+    const currentPageData = this.state.allProdis
+      .filter((prodi) =>
+        prodi.nama.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      )
+      .slice(offset, offset + this.state.limit);
+    this.setState({ page: selected + 1, dosens: currentPageData });
+  };
+
+  handleSearch = (event) => {
+    const searchQuery = event.target.value;
+    const filteredData = this.state.allProdis.filter((prodi) =>
+      prodi.nama.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const pageCount = Math.ceil(filteredData.length / this.state.limit);
+    this.setState({
+      searchQuery,
+      prodis: filteredData.slice(0, this.state.limit),
+      pageCount,
+      page: 1,
+    });
+  };
+
+  componentDidMount() {
+    this.getProdi();
   }
+
   render() {
     return (
       <Layout>
         <div className="m-1 bg-bw p-5 rounded-md min-h-screen">
           <h1 className="text-navy font-bold tracking-widest">Program Studi</h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nama" />
+            <Input 
+            label="Cari berdasarkan nama"
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+            />
             <Button
               className="bg-navy whitespace-nowrap w-1/4"
               onClick={() => this.openModal()}
@@ -57,10 +135,18 @@ export default class ProdiPage extends Component {
               Tambah Program Studi
             </Button>
           </div>
+          {this.state.isLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : (
           <TableProdi
-            onDeleteItem={() => this.deleteData()}
-            onEditItem={() => this.openEditModal()}
+            data={this.state.prodis}
+            onDeleteItem={this.deleteData}
+            onEditItem={this.openEditModal}
+            currentPage={this.state.page}
           />
+          )}
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}

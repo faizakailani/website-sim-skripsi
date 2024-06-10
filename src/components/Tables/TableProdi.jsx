@@ -3,23 +3,18 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
-const TableProdi = ({ onDeleteItem, onEditItem }) => {
-  const handleDelete = () => {
-    onDeleteItem();
+const TableProdi = ({ onDeleteItem, onEditItem, data = [], currentPage }) => {
+  const handleDelete = (kode) => {
+    onDeleteItem(kode);
   };
 
-  const handleEdit = () => {
-    onEditItem();
+  const handleEdit = (items) => {
+    onEditItem(items);
   };
-  const TABLE_HEAD = [
-    "No",
-    "Kode",
-    "Program Studi",
-    "Kaprodi",
-    "NIDN Kaprodi",
-    "Aksi",
-  ];
-  return (
+
+  const TABLE_HEAD = ["No", "Kode", "Program Studi", "Kaprodi", "NIDN Kaprodi", "Aksi"];
+
+  return (  
     <div className="bg-white rounded-lg h-96 lg:h-fit overflow-auto my-5">
       <table className="min-w-full text-sm text-left text-blue">
         <thead>
@@ -32,56 +27,41 @@ const TableProdi = ({ onDeleteItem, onEditItem }) => {
           </tr>
         </thead>
         <tbody>
-          <tr className="odd:bg-blue-gray-50">
+          {data.map((item, index) => (
+            <tr key={index} className="odd:bg-blue-gray-50">
             <td scope="row" className={`px-4 py-3`}>
-              1
+              {(currentPage - 1) * 10 + index + 1}
             </td>
             <td scope="row" className={`px-4 py-3`}>
-              PS01
+              {item.kode}
             </td>
             <td scope="row" className={`px-4 py-3`}>
-              Teknik Informatika
+              {item.program_studi}
             </td>
             <td scope="row" className={`px-4 py-3`}>
-              Gunawan, S.T., M.Kom.
+              {item.kaprodi}
             </td>
             <td scope="row" className={`px-4 py-3`}>
-              0404027604
+              {item.nidn_kaprodi}
             </td>
             <td scope="row" className="flex gap-2 px-4 py-3">
-              <IconButton size="sm" className="bg-navy" onClick={handleEdit}>
-                <FiEdit />
+              <IconButton 
+              size="sm" 
+              className="bg-navy" 
+              onClick={() => handleEdit(item)}
+              >
+              <FiEdit />
               </IconButton>
-              <IconButton size="sm" className="bg-red" onClick={handleDelete}>
+              <IconButton 
+              size="sm" 
+              className="bg-red" 
+              onClick={() => handleDelete(item.kode)}
+              >
                 <MdDelete />
               </IconButton>
             </td>
           </tr>
-          <tr className="odd:bg-blue-gray-50">
-            <td scope="row" className={`px-4 py-3`}>
-              2
-            </td>
-            <td scope="row" className={`px-4 py-3`}>
-              PS02
-            </td>
-            <td scope="row" className={`px-4 py-3`}>
-              Sistem Infomrasi
-            </td>
-            <td scope="row" className={`px-4 py-3`}>
-              Abdul Manaf, Phd.
-            </td>
-            <td scope="row" className={`px-4 py-3`}>
-              002
-            </td>
-            <td scope="row" className="flex gap-2 px-4 py-3">
-              <IconButton size="sm" className="bg-navy" onClick={handleEdit}>
-                <FiEdit />
-              </IconButton>
-              <IconButton size="sm" className="bg-red" onClick={handleDelete}>
-                <MdDelete />
-              </IconButton>
-            </td>
-          </tr>
+          ))}
         </tbody>
       </table>
     </div>

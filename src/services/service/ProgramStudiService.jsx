@@ -14,8 +14,8 @@ const {
  } = API_ENDPOINT;
 
 class ProgramStudiService {
-  static async GetProdi(data) {
-    const stringified = queryString.stringify(data);
+  static async GetProdi(kode) {
+    const stringified = queryString.stringify(kode);
     const res = await api.get(GET_PRODI(stringified), {
       headers: AuthHeaders(),
     });
@@ -29,8 +29,8 @@ class ProgramStudiService {
     return res;
   }
   
-  static async AddProdi(data){
-    const res = await api.post(ADD_PRODI, data, {
+  static async AddProdi(kode){
+    const res = await api.post(ADD_PRODI, kode, {
       headers: AuthHeaders(),
     });
     return res;
@@ -43,8 +43,9 @@ class ProgramStudiService {
     return res;
   }
 
-  static async UpdateProdi(kode, data){
-    const res = await api.put(UPDATE_PRODI(kode), data, {
+  
+  static async UpdateProdi(kode){
+    const res = await api.put(UPDATE_PRODI(kode), kode, {
       headers: AuthHeaders(),
     });
     return res;

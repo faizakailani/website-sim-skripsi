@@ -6,11 +6,9 @@ import AlertComponent from "../components/AlertComponent";
 import ReactPaginate from "react-paginate";
 import TambahProdi from "../components/Modals/TambahProdi";
 import EditProdi from "../components/Modals/EditProdi";
-<<<<<<< Updated upstream
-=======
 import ProgramStudiService from "../services/service/ProgramStudiService";
 import TableDosen from "../components/Tables/TableDosen";
->>>>>>> Stashed changes
+import ProgramStudiService from "../services/service/ProgramStudiService";
 
 export default class ProdiPage extends Component {
   constructor() {
@@ -18,7 +16,14 @@ export default class ProdiPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1,
+      page: 1,
+      limit: 10,
+      prodis: [],
+      allProdis: [],
+      pageCount: 0,
+      searchQuery: "",
+      isLoading: false,
+      items: null,
     };
   }
 
@@ -30,25 +35,33 @@ export default class ProdiPage extends Component {
     this.setState({ isModalOpen: false });
   };
 
-  openEditModal = () => {
-    this.setState({ isModalEditOpen: true });
+  openEditModal = (items) => {
+    this.setState({ isModalEditOpen: true, items });
   };
 
   closeEditModal = () => {
     this.setState({ isModalEditOpen: false });
   };
-  deleteData() {
-    AlertComponent.DeleteConfirmation("Hapus Data Dosen").then(async (e) => {
+
+  deleteData = (kode) => {
+    AlertComponent.DeleteConfirmation("Hapus Data Prodi").then(async (e) => {
       if (e.isConfirmed) {
         try {
-          AlertComponent.SuccessResponse("Sukses");
+          ProgramStudiService.DeleteProdi(kode).then((res)=> {
+            if (res.status === 200 ) {
+              AlertComponent.SuccessResponse(res.data.message);
+              setInterval(() => {
+                window.location.reload();
+              }, 2000);
+            }else {
+              AlertComponent.Error(res.data.message);
+            }
+          });
         } catch (error) {
           AlertComponent.showError("Error", error);
         }
       }
     });
-<<<<<<< Updated upstream
-=======
   };
 
   getProdi = () => {
@@ -104,8 +117,8 @@ export default class ProdiPage extends Component {
 
   componentDidMount() {
     this.getProdi();
->>>>>>> Stashed changes
   }
+
   render() {
     return (
       <Layout>
@@ -114,7 +127,11 @@ export default class ProdiPage extends Component {
             Program Studi
             </h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nama" />
+            <Input 
+            label="Cari berdasarkan nama"
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+            />
             <Button
               className="bg-navy whitespace-nowrap w-1/4"
               onClick={() => this.openModal()}
@@ -122,23 +139,13 @@ export default class ProdiPage extends Component {
               Tambah Program Studi
             </Button>
           </div>
-<<<<<<< Updated upstream
           <TableProdi
-            onDeleteItem={() => this.deleteData()}
-            onEditItem={() => this.openEditModal()}
-=======
-          {this.state.isLoading ? (
-            <div className="flex justify-center">
-              <Spinner />
-            </div>
-          ) : (
-          <TableDosen
             data={this.state.prodis}
             onDeleteItem={this.deleteData}
             onEditItem={this.openEditModal}
             currentPage={this.state.page}
->>>>>>> Stashed changes
-          />
+            />
+
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}

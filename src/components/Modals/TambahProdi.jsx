@@ -16,7 +16,7 @@ import ProgramStudiService from "../../services/service/ProgramStudiService";
 
 // eslint-disable-next-line react/prop-types
 const TambahProdi = ({ isOpen, onClose }) => {
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [kode, setKode] = useState("");
   const [program_studi, setProdi] = useState("");
   const [kaprodi, setKaprodi] = useState("");

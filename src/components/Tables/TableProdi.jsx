@@ -3,7 +3,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
-const TableProdi = ({ onDeleteItem, onEditItem, data = [], currentPage }) => {
+const TableProdi = ({ onDeleteItem, onEditItem, data =[], currentPage }) => {
   const handleDelete = (kode) => {
     onDeleteItem(kode);
   };

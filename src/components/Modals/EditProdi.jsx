@@ -29,32 +29,33 @@ const EditProdi = ({ isOpen, onClose, items }) => {
     setIsLoading(true);
     if (kode === "") {
       onClose();
-      AlertComponent.Error("Silahkan Masukkan Kode");
+      AlertComponent.Error("Silakan masukkan kode");
       return;
     }
     if (program_studi === "") {
       onClose();
-      AlertComponent.Error("Silahkan Masukkan Program Studi");
+      AlertComponent.Error("Silakan masukkan program studi");
       return;
     }
     if (kaprodi === "") {
       onClose();
-      AlertComponent.Error("Silahkan Masukkan Kaprodi");
+      AlertComponent.Error("Silakan masukkan kaprodi");
       return;
     }
     if (nidn_kaprodi === "") {
       onClose();
-      AlertComponent.Error("Silahkan Masukkan NIDN Kaprodi");
+      AlertComponent.Error("Silakan masukkan nidn kaprodi");
       return;
     }
+
     let data = {
       kode,
       program_studi,
       kaprodi,
-      nidn_kaprodi,
+      nidn_kaprodi
     };
     try {
-      const response = await ProgramStudiService.updateProdi(data); // Assuming updateProdi function exists in ProgramStudiService
+      const response = await ProgramStudiService.UpdateProdi(kode, data);
       setIsLoading(false);
       onClose();
       AlertComponent.SuccessResponse(response.data.message);

@@ -14,8 +14,8 @@ const {
  } = API_ENDPOINT;
 
 class ProgramStudiService {
-  static async GetProdi(kode) {
-    const stringified = queryString.stringify(kode);
+  static async GetProdi(data) {
+    const stringified = queryString.stringify(data);
     const res = await api.get(GET_PRODI(stringified), {
       headers: AuthHeaders(),
     });

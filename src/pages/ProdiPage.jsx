@@ -7,8 +7,6 @@ import ReactPaginate from "react-paginate";
 import TambahProdi from "../components/Modals/TambahProdi";
 import EditProdi from "../components/Modals/EditProdi";
 import ProgramStudiService from "../services/service/ProgramStudiService";
-import TableDosen from "../components/Tables/TableDosen";
-import ProgramStudiService from "../services/service/ProgramStudiService";
 
 export default class ProdiPage extends Component {
   constructor() {
@@ -67,7 +65,7 @@ export default class ProdiPage extends Component {
   getProdi = () => {
     const kode = {
       orderBy: "DESC",
-      sortBy: "nama",
+      sortBy: "program_studi",
       limit: 1000,
       include_inactive: false,
       page: 1,
@@ -75,7 +73,7 @@ export default class ProdiPage extends Component {
     this.setState({ isLoading: true });
     try{
       ProgramStudiService.GetProdi(kode).then((res) => {
-        const allProdis = res.data.kode;
+        const allProdis = res.data.data;
         const pageCount = Math.ceil(allProdis.length / this.state.limit);
         this.setState({
           allProdis,
@@ -104,7 +102,7 @@ export default class ProdiPage extends Component {
   handleSearch = (event) => {
     const searchQuery = event.target.value;
     const filteredData = this.state.allProdis.filter((prodi) =>
-      prodi.nama.toLowerCase().includes(searchQuery.toLowerCase())
+      prodi.kaprodi.toLowerCase().includes(searchQuery.toLowerCase())
     );
     const pageCount = Math.ceil(filteredData.length / this.state.limit);
     this.setState({
@@ -118,7 +116,7 @@ export default class ProdiPage extends Component {
   componentDidMount() {
     this.getProdi();
   }
-
+  
   render() {
     return (
       <Layout>
@@ -128,7 +126,7 @@ export default class ProdiPage extends Component {
             </h1>
           <div className="flex justify-end gap-2 my-3">
             <Input 
-            label="Cari berdasarkan nama"
+            label="Cari Berdasarkan Nama Kaprodi"
             value={this.state.searchQuery}
             onChange={this.handleSearch}
             />
@@ -139,13 +137,18 @@ export default class ProdiPage extends Component {
               Tambah Program Studi
             </Button>
           </div>
-          <TableProdi
-            data={this.state.prodis}
-            onDeleteItem={this.deleteData}
-            onEditItem={this.openEditModal}
-            currentPage={this.state.page}
+          {this.state.isLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : (
+            <TableProdi
+              data={this.state.prodis}
+              onDeleteItem={this.deleteData}
+              onEditItem={this.openEditModal}
+              currentPage={this.state.page}
             />
-
+          )}
           <ReactPaginate
             previousLabel={"<"}
             nextLabel={">"}

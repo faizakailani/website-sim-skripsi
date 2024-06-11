@@ -64,8 +64,8 @@ export default class ProdiPage extends Component {
 
   getProdi = () => {
     const kode = {
-      orderBy: "DESC",
-      sortBy: "program_studi",
+      orderBy: "ASC",
+      sortBy: "kode",
       limit: 1000,
       include_inactive: false,
       page: 1,

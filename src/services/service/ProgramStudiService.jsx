@@ -44,8 +44,8 @@ class ProgramStudiService {
   }
 
   
-  static async UpdateProdi(kode){
-    const res = await api.put(UPDATE_PRODI(kode), kode, {
+  static async UpdateProdi(kode, data){
+    const res = await api.put(UPDATE_PRODI(kode), data, {
       headers: AuthHeaders(),
     });
     return res;

@@ -6,6 +6,7 @@ import { Button, Input } from "@material-tailwind/react";
 import TableSkripsi from "../components/Tables/TableSkripsi";
 import ReactPaginate from "react-paginate";
 import AlertComponent from "../components/AlertComponent";
+import SkripsiService from "../services/service/SkripsiService";
 
 export default class SkripsiPage extends Component {
   constructor() {
@@ -13,7 +14,14 @@ export default class SkripsiPage extends Component {
     this.state = {
       isModalOpen: false,
       isModalEditOpen: false,
-      pageCount: 1,
+      page: 1,
+      limit: 10,
+      skripsi: [],
+      allSkripsi: [],
+      pageCount: 0,
+      searchQuery: "",
+      isLoading: false,
+      items: null,
     };
   }
 
@@ -25,24 +33,88 @@ export default class SkripsiPage extends Component {
     this.setState({ isModalOpen: false });
   };
 
-  openEditModal = () => {
-    this.setState({ isModalEditOpen: true });
+  openEditModal = (items) => {
+    this.setState({ isModalEditOpen: true, items });
   };
 
   closeEditModal = () => {
     this.setState({ isModalEditOpen: false });
   };
 
-  deleteData() {
+  deleteData = (id) => {
     AlertComponent.DeleteConfirmation("Hapus Data Skripsi").then(async (e) => {
       if (e.isConfirmed) {
         try {
-          AlertComponent.SuccessResponse("Sukses");
+          SkripsiService.DeleteSkripsi(id).then((res) => {
+            if (res.status === 200) {
+              AlertComponent.SuccessResponse(res.data.message);
+              setInterval(() => {
+                window.location.reload();
+              }, 1000);
+            } else {
+              AlertComponent.Error(res.data.message);
+            }
+          });
         } catch (error) {
           AlertComponent.showError("Error", error);
         }
       }
     });
+  };
+
+  getSkripsi = () => {
+    const kode = {
+      orderBy: "DESC",
+      sortBy: "nim",
+      limit: 1000,
+      include_inactive: false,
+      page: 1,
+    };
+    this.setState({ isLoading: true });
+    try {
+      SkripsiService.GetSkripsi(kode).then((res) => {
+        const allSkripsi = res.data.data;
+        const pageCount = Math.ceil(allSkripsi.length / this.state.limit);
+        this.setState({
+          allSkripsi,
+          skripsi: allSkripsi.slice(0, this.state.limit),
+          pageCount,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  handlePageClick = (data) => {
+    let selected = data.selected;
+    const offset = selected * this.state.limit;
+    const currentPageData = this.state.allSkripsi
+      .filter((skripsi) =>
+        skripsi.nim.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      )
+      .slice(offset, offset + this.state.limit);
+    this.setState({ page: selected + 1, skripsi: currentPageData });
+  };
+
+  handleSearch = (event) => {
+    const searchQuery = event.target.value;
+    const filteredData = this.state.allSkripsi.filter((skripsi) =>
+      skripsi.nim.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const pageCount = Math.ceil(filteredData.length / this.state.limit);
+    this.setState({
+      searchQuery,
+      skripsi: filteredData.slice(0, this.state.limit),
+      pageCount,
+      page: 1,
+    });
+  };
+
+  componentDidMount() {
+    this.getSkripsi();
   }
 
   render() {
@@ -53,17 +125,23 @@ export default class SkripsiPage extends Component {
             Manajemen Skripsi
           </h1>
           <div className="flex justify-end gap-2 my-3">
-            <Input label="Cari berdasarkan nim" />
+            <Input
+              label="Cari berdasarkan nim"
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
             <Button
               className="bg-navy whitespace-nowrap w-1/4"
               onClick={() => this.openModal()}
             >
-              Tambah Skripsi
+              Tambah Program Skripsi
             </Button>
           </div>
           <TableSkripsi
-            onDeleteItem={() => this.deleteData()}
-            onEditItem={() => this.openEditModal()}
+            data={this.state.skripsi}
+            onDeleteItem={this.deleteData}
+            onEditItem={this.openEditModal}
+            currentPage={this.state.page}
           />
           <ReactPaginate
             previousLabel={"<"}
@@ -76,7 +154,7 @@ export default class SkripsiPage extends Component {
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}
-            // onPageChange={this.handlePageClick}
+            onPageChange={this.handlePageClick}
           />
         </div>
         {this.state.isModalOpen && (
@@ -87,6 +165,7 @@ export default class SkripsiPage extends Component {
         )}
         {this.state.isModalEditOpen && (
           <EditSkripsi
+            items={this.state.items}
             isOpen={this.state.isModalEditOpen}
             onClose={() => this.closeEditModal()}
           />
